@@ -1,4 +1,6 @@
-{
-
+.navbar {
+    background-color: #006fe6;
+    width: 100%;
+    height: 5vh;
 }
-import 'bootstrap/dist/css/bootstrap.min.css';
+

@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Tasks from './Tasks';
 import Queue from './Queue';
 
-let exerciseLength = 60; // seconds
-let pause = 100; // seconds
+let exerciseLength = 35; // seconds
+let pause = 60; // seconds
 
 export default function App() {
   const [exerciseQueue, setExerciseQueue] = useState<Queue<string>>(new Queue<string>());

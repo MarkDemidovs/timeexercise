@@ -10,7 +10,6 @@ export default function App() {
       <Button variant="primary">Start</Button>
       <Button variant="danger ">Stop</Button>
       <Button variant="success">Next</Button>
-      <Button variant="warning">Previous</Button>
     </div>
     <Tasks/>
     

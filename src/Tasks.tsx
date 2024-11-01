@@ -1,65 +1,23 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import { Button } from "react-bootstrap";
+import Queue from './Queue';
 
-class Queue {
-    private data: any[]; 
+type TasksProps = {
+  exerciseQueue: Queue<string>;
+  setExerciseQueue: React.Dispatch<React.SetStateAction<Queue<string>>>;
+};
 
-    constructor(q: any[] = []) {
-        this.data = q;
-    }
-
-    enqueue(value: any): void {
-        this.data.push(value); 
-    }
-
-    size(): number {
-        return this.data.length; 
-    }
-
-    dequeue(): any {
-        if (this.size() < 1) {
-            throw new Error("Empty Queue");
-        }
-        return this.data.shift();
-    }
-
-    peek(): any {
-        if (this.size() < 1) {
-            return null;
-        }
-        return this.data[0];
-    }
-
-    getItems(): any[] {
-        return this.data;
-    }
-}
-
-export default function Tasks() {
+export default function Tasks({ exerciseQueue, setExerciseQueue }: TasksProps) {
   const [currentExercise, setCurrentExercise] = useState<string>("");
-  const [exerciseQueue, setExerciseQueue] = useState<Queue>(new Queue());
 
   function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-
     if (currentExercise.trim()) {
       exerciseQueue.enqueue(currentExercise);
-      setExerciseQueue(new Queue(exerciseQueue.getItems()));
-      setCurrentExercise(""); 
+      setExerciseQueue(new Queue<string>(exerciseQueue.getItems())); // Update queue
+      setCurrentExercise("");
     }
-
     console.log(exerciseQueue.getItems());
-  }
-
-  function handleDequeue() {
-    if (exerciseQueue.size() > 0) {
-      const removedExercise = exerciseQueue.dequeue();
-      setExerciseQueue(new Queue(exerciseQueue.getItems()));
-      console.log(`Removed exercise: ${removedExercise}`);
-    } else {
-      console.log("Queue is empty.");
-    }
   }
 
   return (
@@ -73,16 +31,15 @@ export default function Tasks() {
           value={currentExercise}
           onChange={(e) => setCurrentExercise(e.target.value)}
         />
-
         <div>
-            <Button onClick={handleAdd}>Queue</Button>
-            <Button onClick={handleDequeue} className="ms-1">Dequeue</Button>
+          <Button onClick={handleAdd}>Queue</Button>
+          <Button onClick={() => setExerciseQueue(new Queue<string>(exerciseQueue.getItems().slice(1)))} className="ms-1">Dequeue</Button>
         </div>
       </form>
       <div className="mt-4">
         <h5>Current Exercise Queue:</h5>
         <ul>
-          {exerciseQueue.getItems().map((exercise, index) => (
+          {exerciseQueue.getItems().map((exercise: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined, index: Key | null | undefined) => (
             <li key={index}>{exercise}</li>
           ))}
         </ul>

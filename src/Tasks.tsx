@@ -1,4 +1,4 @@
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import Queue from './Queue';
 
@@ -14,7 +14,7 @@ export default function Tasks({ exerciseQueue, setExerciseQueue }: TasksProps) {
     e.preventDefault();
     if (currentExercise.trim()) {
       exerciseQueue.enqueue(currentExercise);
-      setExerciseQueue(new Queue<string>(exerciseQueue.getItems())); // Update queue
+      setExerciseQueue(new Queue<string>(exerciseQueue.getItems())); 
       setCurrentExercise("");
     }
     console.log(exerciseQueue.getItems());
@@ -33,13 +33,23 @@ export default function Tasks({ exerciseQueue, setExerciseQueue }: TasksProps) {
         />
         <div>
           <Button onClick={handleAdd}>Queue</Button>
-          <Button onClick={() => setExerciseQueue(new Queue<string>(exerciseQueue.getItems().slice(1)))} className="ms-1">Dequeue</Button>
+          <Button
+            onClick={() => {
+              if (exerciseQueue.size() > 0) {
+                exerciseQueue.dequeue();
+                setExerciseQueue(new Queue<string>(exerciseQueue.getItems()));
+              }
+            }}
+            className="ms-1"
+          >
+            Dequeue
+          </Button>
         </div>
       </form>
       <div className="mt-4">
         <h5>Current Exercise Queue:</h5>
         <ul>
-          {exerciseQueue.getItems().map((exercise: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined, index: Key | null | undefined) => (
+          {exerciseQueue.getItems().map((exercise, index) => (
             <li key={index}>{exercise}</li>
           ))}
         </ul>

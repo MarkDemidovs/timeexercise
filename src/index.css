@@ -4,3 +4,34 @@
     height: 5vh;
 }
 
+#appMain {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#appMain h1 {
+    text-align: center;
+}
+
+#screenBtn {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+#tasksField {
+    margin-top: 5vh;
+}
+
+#exerInput {
+    width: 60vh;
+}
+
+#formTasks {
+    display: flex;
+}
